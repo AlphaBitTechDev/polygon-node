@@ -1,0 +1,24 @@
+version: "3.9" # Or a compatible version
+
+services:
+  polygon-node:
+    image: alphabitdev/polygon-node:latest # Your built image name
+    ports:
+      - "26656:26656" # Heimdall consensus
+      - "1317:1317" # Heimdall REST API
+      - "30303:30303" # Bor P2P
+      - "8545:8545" # Bor RPC (Be careful about exposing this)
+    volumes:
+      - ./heimdall/config:/var/lib/heimdall/config
+      - ./heimdall/data:/var/lib/heimdall/data
+      - ./bor/config:/var/lib/bor/config
+      - ./bor/data:/var/lib/bor/data
+    depends_on: # Important: Start Heimdall before Bor
+      - heimdall
+
+  heimdall: # This service definition is only for the dependency check.
+    image: polygon-node
+    command: ["/bin/true"] # A dummy command to prevent the container from starting
+    volumes:
+      - ./heimdall/config:/var/lib/heimdall/config
+      - ./heimdall/data:/var/lib/heimdall/data
