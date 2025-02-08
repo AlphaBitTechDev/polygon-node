@@ -5,7 +5,7 @@ WORKDIR /polygon
 # Install dependencies
 RUN apt update && \
     apt-get upgrade -y && \
-    apt install -y build-essential lz4 curl software-properties-common
+    apt install -y build-essential lz4 curl software-properties-common sudo 
 
 # Install Heimdall
 RUN curl -L https://raw.githubusercontent.com/maticnetwork/install/main/heimdall.sh | bash -s -- 1.2.0 mainnet sentry
